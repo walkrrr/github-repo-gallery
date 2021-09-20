@@ -3,7 +3,8 @@ const username = "walkrrr";
 const reposList = document.querySelector(".repo-list");
 const repos = document.querySelector(".repos");
 const repoData = document.querySelector(".repo-data");
-
+const backToRepo = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".search-by-name");
 
 const gitUserInfo = async function (){
    const userInfo = await fetch(`https://api.github.com/users/${username}`);
@@ -84,3 +85,24 @@ const getRepoInfo = async function (repoName) {
     `;
     repoData.append(div);
   };
+
+ backToRepo.addEventListener("click", function () {
+    allReposContainer.classList.remove("hide");
+    repoData.classList.add("hide");
+    backToRepo.classList.add("hide");
+  });
+
+  filterInput.addEventListener("input", function (e) {
+    const searchText = e.target.value;
+    const repos = document.querySelectorAll(".repo");
+    const searchLowerText = searchText.toLowerCase();
+
+    for (const repo of repos) {
+        const repoLowerText = repo.innerText.toLowerCase();
+        if (repoLowerText.includes(searchLowerText)) {
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+        }
+    }
+    });
